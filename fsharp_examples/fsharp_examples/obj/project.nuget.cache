@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "kjhAy9YHB1yg4K6FtDXd+ONk+rrYoJEtaCotH7zuhyZMlAP4xh5xCVaEXHkaufL3eakm9ZaDWBodjAM745Q9fQ==",
+  "success": true,
+  "projectFilePath": "/Users/theo_mac/Desktop/F#_examples/fsharp_examples/fsharp_examples/fsharp_examples.fsproj",
+  "expectedPackageFiles": [
+    "/Users/theo_mac/.nuget/packages/fsharp.core/7.0.400/fsharp.core.7.0.400.nupkg.sha512"
+  ],
+  "logs": []
+}
