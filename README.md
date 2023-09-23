@@ -30,43 +30,43 @@ _This is more important than all the other transformations. Choosing structural 
 
 _Each of the transformations here can be considered and implemented, or not._
 
-[Structural Abstraction](StructuralAbstraction.fs). Partition code into functions each doing part of the work. Special case: structural pipelining. Special and common combination of pipelining and structural abstraction where a function is split into multiple pipelined subfunctions each of which does part of the work. This corresponds to transforming the input data through a number of stages. DUI (with pipelining, add LFM).
+[Structural Abstraction](fsharp_examples/fsharp_examples/StructuralAbstraction.fs). Partition code into functions each doing part of the work. Special case: [structural pipelining](fsharp_examples/fsharp_examples/Pipelining.fs). Special and common combination of pipelining and structural abstraction where a function is split into multiple pipelined subfunctions each of which does part of the work. This corresponds to transforming the input data through a number of stages. DUI (with pipelining, add LFM).
 
-Input Wrapping. Use local let definitions to wrap input parameters transforming them into a form that can be used with less duplication (and helpful names) multiple times in expressions (DRY)
+[Input Wrapping](fsharp_examples/fsharp_examples/InputWrapping.fs). Use local let definitions to wrap input parameters transforming them into a form that can be used with less duplication (and helpful names) multiple times in expressions (DRY)
 
-Match case compression 1. Move common code inside match case expressions outside before the match. Note that this may require the match case expressions (or part of them) to be turned into functions so that the "variable" bits can be factored out. But often all that is needed is let definitions before (DRY)
+[Match case compression 1](fsharp_examples/fsharp_examples/MatchCaseCompression.fs). Move common code inside match case expressions outside before the match. Note that this may require the match case expressions (or part of them) to be turned into functions so that the "variable" bits can be factored out. But often all that is needed is let definitions before (DRY)
 
-Match case compression 2. Move common code in match case expressions after the match – pipelining the match result into the common function(s).
+[Match case compression 2](fsharp_examples/fsharp_examples/MatchCaseCompression.fs). Move common code in match case expressions after the match – pipelining the match result into the common function(s).
 
-Function wrapping. A function is used multiple times in a particular way – e.g. with some inputs fixed, or with a change to its output. Create a local wrapper function which implements the modified function. Note that this is similar in effect to input wrapping. Note also that if inputs are corrctly ordered Currying does this without the need for a wrapper - although awrapper may still be used to reduce noise and add abstraction (DRY, DUI).
+[Function wrapping](fsharp_examples/fsharp_examples/FunctionWrapping.fs). A function is used multiple times in a particular way – e.g. with some inputs fixed, or with a change to its output. Create a local wrapper function which implements the modified function. Note that this is similar in effect to input wrapping. Note also that if inputs are corrctly ordered Currying does this without the need for a wrapper - although awrapper may still be used to reduce noise and add abstraction (DRY, DUI).
 
-Helper functions. Identify and code globally useful helper functions (DRY, DUI)
+[Helper functions](fsharp_examples/fsharp_examples/GlobalHelperFunction.fs). Identify and code globally useful helper functions (DRY, DUI)
 
 2. **Parametrization**
 
-Ordering. Order parameters so that Currying can be used nicely to implement partial evaluation. Generally this means the more static ones firts. Note that in some cases there are no good orders, and an anonymous adapter function is needed so that the correct argument can be fed in from a pipeline. (RSN).
+[Ordering](fsharp_examples/fsharp_examples/ParameterOrdering.fs). Order parameters so that Currying can be used nicely to implement partial evaluation. Generally this means the more static ones firts. Note that in some cases there are no good orders, and an anonymous adapter function is needed so that the correct argument can be fed in from a pipeline. (RSN).
 
-Grouping (see records). Group related function parameters together as a single compound parameter. This can be done with tuples, but is usually best done with records - always ask whether your tuples would be better implemented as records. (DUI, RSN).
+[Grouping](fsharp_examples/fsharp_examples/ParameterGrouping.fs) (see records). Group related function parameters together as a single compound parameter. This can be done with tuples, but is usually best done with records - always ask whether your tuples would be better implemented as records. (DUI, RSN).
 
-Static parameter elimination This is about chooisng function scope. One motivation for having a function as a subfunction is that static information it needs available in the outer function can be fed in directly as in-scope identifiers without the overhead of passing it through function parameters. This overhead is typically not about performance. Compilers can optimsie it). It is conceptual overhead. (RSN).
+[Static parameter elimination](fsharp_examples/fsharp_examples/StaticParamElimination.fs) This is about chooisng function scope. One motivation for having a function as a subfunction is that static information it needs available in the outer function can be fed in directly as in-scope identifiers without the overhead of passing it through function parameters. This overhead is typically not about performance. Compilers can optimsie it). It is conceptual overhead. (RSN).
 
-Adding a parameter. Where two blocks of code can't immediately be commoned up as a value or function used twice, adding a parameter can make this possible. Choose function and parameter name and operation so that what it does is clear.
+[Adding a parameter](fsharp_examples/fsharp_examples/AddingParameters.fs). Where two blocks of code can't immediately be commoned up as a value or function used twice, adding a parameter can make this possible. Choose function and parameter name and operation so that what it does is clear.
 
 3. **Pipelines**
 
-Making. A pipeline, in code, is motivated by LFM. The order of operations in a pipeline follows the actual order in which data is transformed - so turning function applications into pipelines makes reading easier. (LFM).
+[Making](fsharp_examples/fsharp_examples/Pipelines.fs). A pipeline, in code, is motivated by LFM. The order of operations in a pipeline follows the actual order in which data is transformed - so turning function applications into pipelines makes reading easier. (LFM).
 
-Breaking. A pipeline may lead to code that is dificult to understand if its stages do not make sense individually. In that case breaking the pipeline with a let defined identifier that documents an intermediate value can make code simpler. (DUI).
+[Breaking](fsharp_examples/fsharp_examples/BreakingPipeline.fs). A pipeline may lead to code that is dificult to understand if its stages do not make sense individually. In that case breaking the pipeline with a let defined identifier that documents an intermediate value can make code simpler. (DUI).
 
-Anonymous function at end. FP allows a pipeline to be formed with an anonymous function at the end of it. If you think about it, this is identical to a let definition followed an expression using the let-defined value(s). the choice of which form is best should be made based on readability: it is often not clear-cut which form is better - don't assume the "more functional" one is better! (LFM).
+[Anonymous function at end](fsharp_examples/fsharp_examples/AnonymousFunAtEnd.fs). FP allows a pipeline to be formed with an anonymous function at the end of it. If you think about it, this is identical to a let definition followed an expression using the let-defined value(s). the choice of which form is best should be made based on readability: it is often not clear-cut which form is better - don't assume the "more functional" one is better! (LFM).
 
 4. **Records**
 
 Records, with discriminated unions, are the key types you use to describe your data. In addition records (or anonymous records, if used one-off) can be used as below to transform your code into a more readable form.
 
-Grouping definitions: Mutiple repeated name prefixes or suffixes: cursorX, cursorY make code very difficult to read. The correct answer is nearly always a record type (possibly, if used only in one case, an anonymous record). DRY
+[Grouping definitions](fsharp_examples/fsharp_examples/Records.fs): Mutiple repeated name prefixes or suffixes: cursorX, cursorY make code very difficult to read. The correct answer is nearly always a record type (possibly, if used only in one case, an anonymous record). DRY
 
-Grouping parameters. Special case of grouping definitions which is particularly important since repeated parameters make function calls difficult to read as well as complicating function definitions. (DRY, RSN).
+[Grouping parameters](fsharp_examples/fsharp_examples/Records.fs). Special case of grouping definitions which is particularly important since repeated parameters make function calls difficult to read as well as complicating function definitions. (DRY, RSN).
 
 5. **Match**
 
