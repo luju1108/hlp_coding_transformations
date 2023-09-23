@@ -54,7 +54,7 @@ _Each of the transformations here can be considered and implemented, or not._
 
 3. **Pipelines**
 
-[Making](fsharp_examples/fsharp_examples/Pipelines.fs). A pipeline, in code, is motivated by LFM. The order of operations in a pipeline follows the actual order in which data is transformed - so turning function applications into pipelines makes reading easier. (LFM).
+[Making](fsharp_examples/fsharp_examples/Pipelining.fs). A pipeline, in code, is motivated by LFM. The order of operations in a pipeline follows the actual order in which data is transformed - so turning function applications into pipelines makes reading easier. (LFM).
 
 [Breaking](fsharp_examples/fsharp_examples/BreakingPipeline.fs). A pipeline may lead to code that is dificult to understand if its stages do not make sense individually. In that case breaking the pipeline with a let defined identifier that documents an intermediate value can make code simpler. (DUI).
 
